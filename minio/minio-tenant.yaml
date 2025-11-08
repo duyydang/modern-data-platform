@@ -1,0 +1,22 @@
+# minio-tenant.yaml
+apiVersion: minio.min.io/v2
+kind: Tenant
+metadata:
+  name: minio-ha
+  namespace: minio-tenant
+spec:
+  image: quay.io/minio/minio:latest
+  configuration:
+    name: minio-root-cred
+  pools:
+    - name: pool-0
+      servers: 4
+      volumesPerServer: 4
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          storageClassName: standard
+          resources:
+            requests:
+              storage: 1Gi
